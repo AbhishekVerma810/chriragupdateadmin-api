@@ -1,0 +1,3 @@
+sudo ln -s sites-available/loyalty.com.conf sites-available/loyalty.com.conf
+
+ln -s /etc/nginx/sites-available/loyalty.com.conf /etc/nginx/sites-enabled/
