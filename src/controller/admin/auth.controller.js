@@ -55,7 +55,17 @@ exports.login = async (req, res, next) => {
   }
 };
 
-
+exports.logOut = async (req, res, next) => {
+  try {
+    const { error, message, formValue } = req.query;
+    res.clearCookie("dd-token");
+    req.success = "Successfully LogOut.";
+    // return res.redirect("/admin/login")
+    next("last");
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.forgotPassword = async (req, res, next) => {
   try {
@@ -100,7 +110,17 @@ exports.userForgotPassword = async (req, res, next) => {
 };
 
 exports.resetPassword = async (req, res) => {
-
+  try {
+    const { error, message, formValue, isLoggedIn } = req.query;
+    return res.render("admin/auth/reset_password", {
+      error,
+      message,
+      formValue,
+      isLoggedIn
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.userResetPassword = async (req, res, next) => {

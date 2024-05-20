@@ -25,34 +25,15 @@ router.get("/notifications",checkUserAuth,controller.NotificationController.getU
 // ServiceController
 router.post('/service/create',checkAdminAuth,singleImage, controller.ServiceController.addService);
 router.get('/service/list',controller.ServiceController.getServiceList);
-router.get('/service/edit/:id',checkAdminAuth,controller.ServiceController.editService);
-router.post('/service/update/:id',checkAdminAuth, singleImage, controller.ServiceController.updateService);
-router.get('/service/delete/:id',checkAdminAuth,controller.ServiceController.deleteService);
 router.get('/service/detail/:id', controller.ServiceController.getServiceDetail);
-
-// ServiceCategoryController
-router.post('/service/category/create',checkAdminAuth,singleImage, controller.ServiceCategoryController.createServiceCategory);
-router.get('/service/category/list',checkAdminAuth, controller.ServiceCategoryController.getAllServiceCategory);
-router.get('/service/category/edit/:id',checkAdminAuth, controller.ServiceCategoryController.editServiceCategory);
-router.post('/service/category/update/:id',checkAdminAuth,singleImage, controller.ServiceCategoryController.updateServiceCategory);
-router.get('/service/category/delete/:id',checkAdminAuth, controller.ServiceCategoryController.deleteServiceCategory);
-// router.post('/service/delete/:id',checkAdminAuth, controller.ServiceController.deleteService);
-// router.put('/service/update/:id',checkAdminAuth, controller.ServiceController.updateService);
-
-// ServiceCategoryItemController
-router.post('/service/category/item/create',checkAdminAuth, controller.ServiceCategoryItemController.createServiceCategoryItem);
-router.get('/service/category/item/list',checkAdminAuth, controller.ServiceCategoryItemController.getAllServiceCategoryItem);
-router.get('/service/category/item/edit/:id',checkAdminAuth, controller.ServiceCategoryItemController.editServiceCategoryItem);
-router.post('/service/category/item/update/:id',checkAdminAuth,singleImage, controller.ServiceCategoryItemController.updateServiceCategoryItem);
-router.get('/service/category/item/delete/:id',checkAdminAuth,singleImage, controller.ServiceCategoryItemController.deleteServiceCategoryItem);
-
+router.post('/service/category',checkAdminAuth, controller.ServiceController.createServiceCategory);
+router.post('/service/category/item',checkAdminAuth,singleImage, controller.ServiceController.createServiceCategoryItem);
+router.post('/service/delete/:id',checkAdminAuth, controller.ServiceController.deleteService);
+router.put('/service/update/:id',checkAdminAuth, controller.ServiceController.updateService);
 
 // BannerController
 router.post('/banner/create',checkAdminAuth,singleImage, controller.BannerController.addBanner);
 router.get('/banner/list', controller.BannerController.getBannerList);
-router.get('/banner/edit/:id',checkAdminAuth,controller.BannerController.editBanner);
-router.post('/banner/update/:id',checkAdminAuth, singleImage, controller.BannerController.updateBanner);
-router.get('/banner/delete/:id',checkAdminAuth,controller.BannerController.deleteBanner);
 
 //CartController
 router.post('/cart/create',checkUserAuth, controller.CartController.addCart);//modified remove user_id

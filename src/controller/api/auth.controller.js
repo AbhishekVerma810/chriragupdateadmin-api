@@ -1,4 +1,4 @@
-const { User, Admin, Notification } = require("../../models");
+const { User, Admin } = require("../../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { sendMail } = require("../../utils/helper");
@@ -24,7 +24,6 @@ exports.signup = async (req, res, next) => {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       contact_number: Joi.string().required(),
-      fcm_token: Joi.string().required(),
     });
     const { error } = schema.validate(reqParam);
     if (error) {
@@ -58,7 +57,6 @@ exports.signup = async (req, res, next) => {
       password: hashedPassword,
       contact_number: req.body.contact_number,
       img_url: img_url || "",
-      fcm_token: req.body.fcm_token || null,
     });
 
     // Generate a token
@@ -70,23 +68,7 @@ exports.signup = async (req, res, next) => {
 
     // Update the user with the generated token
     await User.update({ token: token }, { where: { id: newUser.id } });
-    const userFcmToken = newUser.fcm_token;
-    console.log("uscFcmToken---",userFcmToken);
-    if (userFcmToken !== null) {
-      let fcmTokenOfSingleRecievier = userFcmToken;
-      let singleNotificationData = {
-        title: `Message from Admin`,
-        content: "Congratulations! You've registered successfully",
-      };
-      console.log("singleNotificationData----", singleNotificationData);
-      let notificationBody = {
-        title: singleNotificationData.title,
-        content: singleNotificationData.content,
-      };
-      // console.log("notificationBody",notificationBody);
-      await Notification.create(singleNotificationData);
-      utils.pushNotification(notificationBody, fcmTokenOfSingleRecievier);
-    }
+
     return Response.successResponseData(
       res,
       newUser,
@@ -110,7 +92,7 @@ exports.login = async (req, res, next) => {
         .json({ status: "failed", message: "All fields are required 😃🍻" });
     }
 
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: {email:email} });
 
     if (!user) {
       return res.status(401).json({

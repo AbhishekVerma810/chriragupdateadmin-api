@@ -24,9 +24,6 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
-      fcm_token: {
-        type: Sequelize.TEXT
-      },
       img_url: {
         type: Sequelize.STRING
       },

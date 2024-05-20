@@ -38,55 +38,6 @@ exports.getServiceList = async (req, res, next) => {
   }
 };
 
-exports.editService = async (req, res) => {
-  try {
-    const data = await Service.findOne({ where: { id: req.params.id } });
-
-    return res.status(200).json({ data });
-  } catch (err) {
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-exports.updateService = async (req, res) => {
-  try {
-    const { title, description } = req.body;
-    let updateFields = { title, description };
-
-    if (req.file) {
-      updateFields.image_url = req.file.filename;
-    }
-    
-    const [updated] = await Service.update(updateFields, {
-      where: { id: req.params.id },
-      returning: true,
-    });
-
-    if (!updated) {
-      return res.status(404).json({ error: 'Service not found' });
-    }
-
-    return res.status(200).json({ message: 'Service updated successfully', data: updated });
-  } catch (err) {
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-exports.deleteService = async (req, res) => {
-  try {
-    const deleted = await Service.destroy({ where: { id: req.params.id } });
-
-    if (!deleted) {
-      return res.status(404).json({ error: 'Service not found' });
-    }
-
-    return res.status(200).json({ message: 'Service deleted successfully' });
-  } catch (err) {
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-
 exports.getServiceDetail = async (req, res, next) => {
   try {
     // const services = await Service.findOne({where:{id:req.params.id}});
@@ -152,31 +103,37 @@ exports.createServiceCategoryItem = async (req, res, next) => {
 // Update a Service
 exports.updateService = async (req, res, next) => {
   try {
-    const { title, description } = req.body;
-    let updateFields = {
-      title: title,
-      description: description,
-    };
-    if (req.file) {
-      updateFields.img_url = req.file.filename;
-    }
-    const [affectedRows] = await Service.update(updateFields, {
-      where: {
-        id: req.params.id,
-      }
-    });
+    const { id } = req.params;
+    const {
+      title,
+      description,
+      service_price,
+      rating,
+      service_title,
+      img_url
+    } = req.body;
 
-    if (affectedRows === 0) {
+    const [updatedRows, [updatedService]] = await Service.update(
+      {
+        title,
+        description,
+        service_price,
+        rating,
+        service_title,
+        img_url
+      },
+      {
+        where: {
+          id
+        },
+        returning: true
+      }
+    );
+
+    if (updatedRows === 0) {
       return res.status(404).json({ message: 'Service not found' });
     }
-
-    const updatedBanner = await Service.findOne({
-      where: {
-        id: req.params.id,
-      }
-    });
-
-    return res.status(200).json({ message: 'Service updated successfully', data: updatedBanner });
+    res.status(200).json(updatedService);
   } catch (err) {
     next(err);
   }

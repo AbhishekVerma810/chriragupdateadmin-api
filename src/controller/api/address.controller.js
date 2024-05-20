@@ -14,10 +14,9 @@ exports.addAddress = async (req, res, next) => {
 // Get User address
 exports.getUserAddress = async (req, res, next) => {
   try {
-    const addresses = await Address.findAll({where: {user_id: req.user.id}});
+    const addresses = await Address.findAll({where: { user_id: req.user.id}});
     res.status(200).json(addresses);
   } catch (err) {
-
     next(err);
   }
 };

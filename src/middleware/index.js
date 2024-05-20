@@ -56,7 +56,7 @@ module.exports = {
             req.role = decoded.role
 
             let result = await User.findOne({ where: { id: req.authUserId } })
-            console.log("result", result);
+            console.log("result",result);
             if (!result) {
               return Response.errorResponseWithoutData(
                 res,

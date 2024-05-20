@@ -1,8 +1,6 @@
 module.exports = {
     AuthController : require("./auth.controller"),
     ServiceController:require("./service.controller"),
-    ServiceCategoryController:require('./service.category.controller'),
-    ServiceCategoryItemController:require('./service.category.item.controller'),
     CartController:require("./cart.controller"),
     BannerController:require('./banner.controller'),
     OrderController:require('./order.controller'),

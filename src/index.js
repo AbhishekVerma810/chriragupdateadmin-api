@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 require('dotenv').config();
 
+const i18n = require('./middleware/i18n.config')
 const session = require('./middleware/session')
 const apiRestriction = require("./middleware/set.api.restriction")
 const catchRouteError = require("./middleware/catch.route.error")
@@ -24,7 +25,7 @@ app.use("/public", express.static('public/'));
 app.use("/upload", express.static("src/upload"));
 app.use(express.static('views'));
 app.use(apiRestriction)
-
+app.use(i18n)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');

@@ -22,7 +22,7 @@ var checkUserAuth = async (req, res, next) => {
       } else {
         req.user = await User.findOne({
           where: { id: decoded.id },
-          attributes: ["id", "email", "password", "role_id","token","fcm_token"],
+          attributes: ["id", "email", "password", "role_id"],
         });
         next();
       }

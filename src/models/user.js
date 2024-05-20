@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     contact_number: DataTypes.STRING,
     token: DataTypes.STRING,
-    fcm_token: DataTypes.TEXT,
     img_url:  {
       type: DataTypes.STRING,
       get() {
